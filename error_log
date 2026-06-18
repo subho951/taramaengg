@@ -1,0 +1,2 @@
+[09-Aug-2024 18:12:20 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.30. in /home1/subhoskh/public_html/kidszone.subhomoysamanta.info/vendor/composer/platform_check.php on line 24
+[09-Aug-2024 18:12:20 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.30. in /home1/subhoskh/public_html/kidszone.subhomoysamanta.info/vendor/composer/platform_check.php on line 24
