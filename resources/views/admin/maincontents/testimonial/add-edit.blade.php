@@ -40,7 +40,7 @@ $controllerRoute = $module['controller_route'];
     } else {
       $name         = '';
       $review       = '';
-      $rate         = '';
+      $rate         = 5;
       $image        = '';
       $company_name = '';
       $company_logo = '';
@@ -53,7 +53,7 @@ $controllerRoute = $module['controller_route'];
           <form method="POST" action="" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3">
-              <label for="name" class="col-md-2 col-lg-2 col-form-label">Name</label>
+              <label for="name" class="col-md-2 col-lg-2 col-form-label">Reviewer / Department</label>
               <div class="col-md-10 col-lg-10">
                 <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
               </div>
@@ -67,8 +67,8 @@ $controllerRoute = $module['controller_route'];
             <div class="row mb-3">
               <label for="rate" class="col-md-2 col-lg-2 col-form-label">Rating</label>
               <div class="col-md-10 col-lg-10">
-                <select name="rate" class="form-control" id="rate" required>
-                  <option value="" selected>Select Rating</option>
+                <select name="rate" class="form-control" id="rate">
+                  <option value="">Select Rating</option>
                   <option value="1" <?=(($rate == 1)?'selected':'')?>>1</option>
                   <option value="2" <?=(($rate == 2)?'selected':'')?>>2</option>
                   <option value="3" <?=(($rate == 3)?'selected':'')?>>3</option>
@@ -84,16 +84,16 @@ $controllerRoute = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-              <label for="designation" class="col-md-2 col-lg-2 col-form-label">Designation</label>
+              <label for="designation" class="col-md-2 col-lg-2 col-form-label">Designation / Credit</label>
               <div class="col-md-10 col-lg-10">
-                <textarea name="designation" class="form-control" id="designation" rows="5" required><?=$designation?></textarea>
+                <textarea name="designation" class="form-control" id="designation" rows="5"><?=$designation?></textarea>
               </div>
             </div>
             <div class="row mb-3">
-              <label for="image" class="col-md-2 col-lg-2 col-form-label">User Image</label>
+              <label for="image" class="col-md-2 col-lg-2 col-form-label">Reviewer Image</label>
               <div class="col-md-10 col-lg-10">
                 <input type="file" name="image" class="form-control" id="image">
-                <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
+                <small class="text-info">Optional. Only JPG, JPEG, ICO, SVG, PNG files are allowed.</small><br>
                 <?php if($image != ''){?>
                   <img src="<?=env('UPLOADS_URL').'testimonial/'.$image?>" alt="<?=$name?>" style="width: 150px; height: 150px; margin-top: 10px;border-radius: 50%;">
                 <?php } else {?>
@@ -108,7 +108,7 @@ $controllerRoute = $module['controller_route'];
               <label for="company_logo" class="col-md-2 col-lg-2 col-form-label">Company Logo</label>
               <div class="col-md-10 col-lg-10">
                 <input type="file" name="company_logo" class="form-control" id="company_logo">
-                <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
+                <small class="text-info">Optional. Only JPG, JPEG, ICO, SVG, PNG files are allowed.</small><br>
                 <?php if($company_logo != ''){?>
                   <img src="<?=env('UPLOADS_URL').'testimonial/'.$company_logo?>" alt="<?=$company_name?>" style="width: 150px; height: 150px; margin-top: 10px;border-radius: 50%;">
                 <?php } else {?>

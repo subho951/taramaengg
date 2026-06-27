@@ -59,11 +59,11 @@ $controllerRoute = $module['controller_route'];
                         <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->name?>" class="img-thumbnail" style="width: 100px; height: 100px; margin-top: 10px;">
                       <?php }?>
                     </td>
-                    <td><?=$row->name?></td>
-                    <td><?=$row->review?></td>
-                    <td><?=$row->rate?></td>
-                    <td><?=$row->company_name?></td>
-                    <td><?=$row->designation?></td>
+                    <td>{{ $row->name }}</td>
+                    <td>{{ \Illuminate\Support\Str::limit(strip_tags($row->review), 120) }}</td>
+                    <td>{{ $row->rate }}</td>
+                    <td>{{ $row->company_name }}</td>
+                    <td>{{ $row->designation }}</td>
                     <td>
                       <?php if($row->company_logo != ''){?>
                         <img src="<?=env('UPLOADS_URL').'testimonial/'.$row->company_logo?>" alt="<?=$row->company_name?>" style="width: 100px; height: 100px; margin-top: 10px;border-radius: 50%;">

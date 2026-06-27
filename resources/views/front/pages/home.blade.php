@@ -94,7 +94,9 @@
   <div class="container section-title" data-aos="fade-up">
     <span class="section-kicker">Why Us</span>
     <h2>What You Can Expect</h2>
-    <p>{{ \Illuminate\Support\Str::limit(strip_tags($whyChooseUs?->page_content ?: 'A straightforward engineering partner committed to clarity, quality and accountable delivery.'), 240) }}</p>
+    @foreach($whyChooseUsIntro as $introParagraph)
+      <p>{{ $introParagraph }}</p>
+    @endforeach
   </div>
 
   <div class="container">
@@ -104,7 +106,7 @@
           <div class="service-item position-relative">
             <div class="icon"><i class="{{ $point->icon ?: 'bi bi-gear' }}"></i></div>
             <h4>{{ $point->title }}</h4>
-            <p>{{ $point->description }}</p>
+            <div class="service-description cms-content">{!! $point->description !!}</div>
           </div>
         </div>
       @empty
@@ -186,6 +188,29 @@
   </div>
 </section>
 
+@if($testimonials->isNotEmpty())
+  <section id="testimonials" class="testimonials-showcase section light-background">
+    <div class="container section-title" data-aos="fade-up">
+      <span class="section-kicker">Testimonials</span>
+      <h2>What Clients Say</h2>
+      <p>Feedback from organizations that trust Tarama Engineering Concern for critical engineering and fabrication work.</p>
+    </div>
+
+    <div class="container">
+      <div class="row gy-4">
+        @foreach($testimonials as $testimonial)
+          <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="{{ min($loop->index * 100, 300) }}">
+            @include('front.elements.testimonial-card', ['testimonial' => $testimonial])
+          </div>
+        @endforeach
+      </div>
+      <div class="text-center mt-5">
+        <a href="{{ route('testimonials') }}" class="btn-brand">View All Testimonials <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+@endif
+
 <section id="recent-blogs" class="recent-blog-postst section light-background">
   <div class="container section-title" data-aos="fade-up">
     <span class="section-kicker">Insights</span>
@@ -227,7 +252,7 @@
   </div>
 </section>
 
-@if($faqs->isNotEmpty())
+@if($faqCategories->isNotEmpty())
   <section id="faq" class="faq-2 section">
     <div class="container section-title" data-aos="fade-up">
       <span class="section-kicker">Common Questions</span>
@@ -236,16 +261,21 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-10">
-          <div class="faq-container">
-            @foreach($faqs as $faq)
-              <div class="faq-item {{ $loop->first ? 'faq-active' : '' }}" data-aos="fade-up" data-aos-delay="{{ 100 + ($loop->index * 75) }}">
-                <i class="faq-icon bi bi-question-circle"></i>
-                <h3>{{ $faq->question }}</h3>
-                <div class="faq-content"><p>{{ $faq->answer }}</p></div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
+          @foreach($faqCategories as $category)
+            <div class="faq-category-group" data-aos="fade-up" data-aos-delay="{{ 100 + ($loop->index * 100) }}">
+              <h3 class="faq-category-title">{{ $category->name }}</h3>
+              <div class="faq-container">
+                @foreach($category->faqs as $faq)
+                  <div class="faq-item {{ $loop->parent->first && $loop->first ? 'faq-active' : '' }}">
+                    <i class="faq-icon bi bi-question-circle"></i>
+                    <h3>{{ $faq->question }}</h3>
+                    <div class="faq-content"><p>{{ $faq->answer }}</p></div>
+                    <i class="faq-toggle bi bi-chevron-right"></i>
+                  </div>
+                @endforeach
               </div>
-            @endforeach
-          </div>
+            </div>
+          @endforeach
         </div>
       </div>
     </div>

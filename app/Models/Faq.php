@@ -11,6 +11,11 @@ class Faq extends Model{
         'faqs'
     ];
 
+    public function category()
+    {
+        return $this->belongsTo(FaqCategory::class, 'faq_category_id');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -35,11 +35,9 @@
   <div class="container section-title" data-aos="fade-up">
     <span class="section-kicker">Why Us</span>
     <h2>{{ $whyChooseUs?->page_name ?: 'Why Choose Tarama' }}</h2>
-    @if($whyChooseUs?->page_content)
-      <p>{{ \Illuminate\Support\Str::limit(strip_tags($whyChooseUs->page_content), 260) }}</p>
-    @else
-      <p>A practical, quality-conscious and responsive approach to engineering work.</p>
-    @endif
+    @foreach($whyChooseUsIntro as $introParagraph)
+      <p>{{ $introParagraph }}</p>
+    @endforeach
   </div>
 
   <div class="container">
@@ -50,7 +48,7 @@
             <div class="why-card-icon"><i class="{{ $point->icon ?: 'bi bi-gear' }}"></i></div>
             <span class="why-number">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
             <h3>{{ $point->title }}</h3>
-            <p>{{ $point->description }}</p>
+            <div class="why-card-description cms-content">{!! $point->description !!}</div>
           </div>
         </div>
       @empty

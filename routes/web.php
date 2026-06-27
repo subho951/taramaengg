@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('/products/category/{slug}', 'App\Http\Controllers\FrontController@products')->name('products.category');
     Route::match(['get', 'post'], '/career', 'App\Http\Controllers\FrontController@career')->name('career');
     Route::get('/clients', 'App\Http\Controllers\FrontController@clients')->name('clients');
+    Route::get('/testimonials', 'App\Http\Controllers\FrontController@testimonials')->name('testimonials');
     Route::match(['get', 'post'], '/contact-us', 'App\Http\Controllers\FrontController@contactUs')->name('contact-us');
     Route::get('/page/{slug}', 'App\Http\Controllers\FrontController@page')->name('page');
 /* Front Panel */

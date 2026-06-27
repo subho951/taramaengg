@@ -55,6 +55,7 @@
           <li><i class="bi bi-chevron-right"></i> <a href="{{ route('who-we-are') }}">Who We Are</a></li>
           <li><i class="bi bi-chevron-right"></i> <a href="{{ route('products') }}">Products</a></li>
           <li><i class="bi bi-chevron-right"></i> <a href="{{ route('clients') }}">Clients</a></li>
+          <li><i class="bi bi-chevron-right"></i> <a href="{{ route('testimonials') }}">Testimonials</a></li>
           <li><i class="bi bi-chevron-right"></i> <a href="{{ route('blogs') }}">Blogs</a></li>
           <li><i class="bi bi-chevron-right"></i> <a href="{{ route('career') }}">Career</a></li>
           <li><i class="bi bi-chevron-right"></i> <a href="{{ route('contact-us') }}">Contact Us</a></li>
@@ -80,5 +81,6 @@
     @else
       <p>&copy; {{ date('Y') }} <strong class="px-1 sitename">{{ $siteName }}</strong>. All Rights Reserved.</p>
     @endif
+    <p class="developer-credit">Developed &amp; maintained by <a href="https://subhomoysamanta.info/" target="_blank" rel="noopener">Subhomoy Samanta</a></p>
   </div>
 </footer>

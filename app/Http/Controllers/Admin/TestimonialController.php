@@ -40,7 +40,6 @@ class TestimonialController extends Controller
                 $rules = [
                     'name'             => 'required',
                     'review'           => 'required',
-                    'rate'             => 'required',
                     'company_name'     => 'required',
                 ];
                 if($this->validate($request, $rules)){
@@ -55,7 +54,7 @@ class TestimonialController extends Controller
                                 return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
                             }
                         } else {
-                            return redirect()->back()->with(['error_message' => 'Please Upload User Image !!!']);
+                            $image = '';
                         }
                     /* user image */
                     /* company logo */
@@ -69,17 +68,17 @@ class TestimonialController extends Controller
                                 return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
                             }
                         } else {
-                            return redirect()->back()->with(['error_message' => 'Please Upload Company logo !!!']);
+                            $company_logo = '';
                         }
                     /* company logo */
                     $fields = [
                         'name'                  => $postData['name'],
                         'review'                => $postData['review'],
-                        'rate'                  => $postData['rate'],
+                        'rate'                  => ($postData['rate'] ?? '') ?: 5,
                         'image'                 => $image,
                         'company_name'          => $postData['company_name'],
                         'company_logo'          => $company_logo,
-                        'designation'           => $postData['designation'],
+                        'designation'           => $postData['designation'] ?? '',
                     ];
                     Testimonial::insert($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -106,7 +105,6 @@ class TestimonialController extends Controller
                 $rules = [
                     'name'             => 'required',
                     'review'           => 'required',
-                    'rate'             => 'required',
                     'company_name'     => 'required',
                 ];
                 if($this->validate($request, $rules)){
@@ -141,11 +139,11 @@ class TestimonialController extends Controller
                     $fields = [
                         'name'                  => $postData['name'],
                         'review'                => $postData['review'],
-                        'rate'                  => $postData['rate'],
+                        'rate'                  => ($postData['rate'] ?? '') ?: 5,
                         'image'                 => $image,
                         'company_name'          => $postData['company_name'],
                         'company_logo'          => $company_logo,
-                        'designation'           => $postData['designation'],
+                        'designation'           => $postData['designation'] ?? '',
                     ];
                     Testimonial::where($this->data['primary_key'], '=', $id)->update($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');

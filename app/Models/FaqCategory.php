@@ -11,6 +11,11 @@ class FaqCategory extends Model{
         'faq_categories'
     ];
 
+    public function faqs()
+    {
+        return $this->hasMany(Faq::class, 'faq_category_id');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

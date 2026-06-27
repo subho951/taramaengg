@@ -10,11 +10,12 @@ use App\Models\Category;
 use App\Models\ClientLogo;
 use App\Models\EmailLog;
 use App\Models\Enquiry;
-use App\Models\Faq;
+use App\Models\FaqCategory;
 use App\Models\GeneralSetting;
 use App\Models\HomepageCounter;
 use App\Models\Page;
 use App\Models\Product;
+use App\Models\Testimonial;
 use App\Models\WhyUsPoint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -30,16 +31,13 @@ class FrontController extends Controller
             'banners' => Banner::where('status', 1)->orderBy('id')->get(),
             'about' => $this->aboutPage(),
             'whyChooseUs' => $this->whyChooseUsPage(),
+            'whyChooseUsIntro' => $this->whyChooseUsIntro(),
             'whyUsPoints' => WhyUsPoint::where('status', 1)->orderBy('rank')->orderBy('id')->get(),
             'counters' => HomepageCounter::where('status', 1)->orderBy('rank')->orderBy('id')->get(),
             'clients' => ClientLogo::where('status', 1)->orderBy('rank')->orderBy('id')->get(),
+            'testimonials' => $this->activeTestimonials()->limit(3)->get(),
             'blogs' => $this->publishedBlogs()->with('category')->limit(3)->get(),
-            'faqs' => Faq::where('status', 1)
-                ->where('is_home_page', 1)
-                ->orderBy('rank')
-                ->orderBy('id')
-                ->limit(6)
-                ->get(),
+            'faqCategories' => $this->homeFaqCategories(),
             'meta_description' => 'Tarama Engineering Concern delivers dependable engineering solutions backed by practical experience, quality workmanship and responsive service.',
         ];
 
@@ -112,6 +110,7 @@ class FrontController extends Controller
         $data = [
             'about' => $this->aboutPage(),
             'whyChooseUs' => $this->whyChooseUsPage(),
+            'whyChooseUsIntro' => $this->whyChooseUsIntro(),
             'whyUsPoints' => WhyUsPoint::where('status', 1)->orderBy('rank')->orderBy('id')->get(),
             'counters' => HomepageCounter::where('status', 1)->orderBy('rank')->orderBy('id')->get(),
             'meta_description' => 'Learn about Tarama Engineering Concern, our engineering approach and the reasons clients choose to work with us.',
@@ -128,6 +127,14 @@ class FrontController extends Controller
         ];
 
         return $this->front_before_login_layout('Clients', 'clients', $data);
+    }
+
+    public function testimonials()
+    {
+        return $this->front_before_login_layout('Testimonials', 'testimonials', [
+            'testimonials' => $this->activeTestimonials()->get(),
+            'meta_description' => 'Read client testimonials and vendor feedback for Tarama Engineering Concern.',
+        ]);
     }
 
     public function products(?string $slug = null)
@@ -244,6 +251,12 @@ class FrontController extends Controller
             ->orderByDesc('id');
     }
 
+    private function activeTestimonials()
+    {
+        return Testimonial::where('status', 1)
+            ->orderByDesc('id');
+    }
+
     private function aboutPage(): ?Page
     {
         return Page::where('page_slug', 'about-us')->where('status', 1)->first()
@@ -254,6 +267,29 @@ class FrontController extends Controller
     {
         return Page::where('page_slug', 'why-choose-us')->where('status', 1)->first()
             ?? Page::whereKey(4)->where('status', 1)->first();
+    }
+
+    private function whyChooseUsIntro(): array
+    {
+        return [
+            'Choosing the right manufacturing partner is critical to the success of your industrial projects. At Tarama Engineering Concern (TEC), we combine decades of ancestral engineering expertise with modern, certified manufacturing capabilities to deliver unmatched reliability and precision.',
+            'Here is why industry leaders trust us with their critical infrastructure and heavy fabrication needs:',
+        ];
+    }
+
+    private function homeFaqCategories()
+    {
+        return FaqCategory::where('status', 1)
+            ->whereHas('faqs', fn ($query) => $query
+                ->where('status', 1)
+                ->where('is_home_page', 1))
+            ->with(['faqs' => fn ($query) => $query
+                ->where('status', 1)
+                ->where('is_home_page', 1)
+                ->orderBy('rank')
+                ->orderBy('id')])
+            ->orderBy('name')
+            ->get();
     }
 
     private function sendContactNotification(array $enquiry): void

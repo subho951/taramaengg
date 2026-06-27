@@ -21,7 +21,7 @@
       </div>
       <div class="row mb-4">
         <label for="description" class="col-sm-3 col-form-label">Description</label>
-        <div class="col-sm-9"><textarea class="form-control" id="description" name="description" rows="5">{{ old('description', $item?->description) }}</textarea></div>
+        <div class="col-sm-9"><textarea class="form-control ckeditor" id="description" name="description" rows="5">{{ old('description', $item?->description) }}</textarea></div>
       </div>
       <div class="row mb-4">
         <label for="icon" class="col-sm-3 col-form-label">Icon class</label>
