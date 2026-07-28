@@ -32,7 +32,7 @@
 <link href="{{ env('FRONT_ASSETS_URL') }}vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 <link href="{{ env('FRONT_ASSETS_URL') }}vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 <link href="{{ env('FRONT_ASSETS_URL') }}css/main.css" rel="stylesheet">
-<link href="{{ env('FRONT_ASSETS_URL') }}css/tarama.css?v=20260613" rel="stylesheet">
+<link href="{{ env('FRONT_ASSETS_URL') }}css/tarama.css?v=20260728" rel="stylesheet">
 
 <style>
   :root {

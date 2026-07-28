@@ -6,63 +6,69 @@
   ];
 @endphp
 
-<section id="hero" class="hero section dark-background">
-  <div class="swiper init-swiper hero-swiper">
+<section id="hero" class="home-banner" aria-label="Homepage banners">
+  <div class="swiper init-swiper home-banner-swiper">
     <script type="application/json" class="swiper-config">
       {
         "loop": {{ $banners->count() > 1 ? 'true' : 'false' }},
         "speed": 700,
-        "autoplay": { "delay": 6500 },
-        "pagination": { "el": ".hero-pagination", "clickable": true }
+        "effect": "fade",
+        "fadeEffect": { "crossFade": true },
+        "autoplay": @if($banners->count() > 1) { "delay": 6500, "disableOnInteraction": false, "pauseOnMouseEnter": true } @else false @endif,
+        "pagination": { "el": ".home-banner-pagination", "clickable": true },
+        "navigation": {
+          "nextEl": ".home-banner-next",
+          "prevEl": ".home-banner-prev"
+        }
       }
     </script>
 
     <div class="swiper-wrapper">
       @forelse($banners as $banner)
         <div class="swiper-slide">
-          <div class="container">
-            <div class="row gy-4 align-items-center">
-              <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
-                @if($banner->heading1 || $banner->heading2)
-                  <span class="hero-eyebrow">{{ trim($banner->heading1.' '.$banner->heading2) }}</span>
-                @endif
-                <h1>{{ $banner->banner_text }}</h1>
-                <p>{{ $banner->banner_text2 }}</p>
-                <div class="d-flex flex-wrap gap-3">
-                  <a href="{{ $banner->banner_link ?: route('contact-us') }}" class="btn-get-started">Explore More</a>
-                  <a href="{{ route('contact-us') }}" class="btn-watch-video d-flex align-items-center"><i class="bi bi-chat-dots"></i><span>Talk to Our Team</span></a>
-                </div>
-              </div>
-              <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="150">
-                <img src="{{ env('UPLOADS_URL').'banner/'.$banner->banner_image }}" class="img-fluid animated" alt="{{ $banner->banner_text }}">
-              </div>
-            </div>
-          </div>
+          <img
+            src="{{ env('UPLOADS_URL').'banner/'.$banner->banner_image }}"
+            class="home-banner-image"
+            alt="{{ $banner->banner_text ?: 'Tarama Engineering homepage banner '.$loop->iteration }}"
+            @if(!$loop->first) loading="lazy" @endif
+          >
         </div>
       @empty
-        <div class="swiper-slide">
-          <div class="container">
-            <div class="row gy-4 align-items-center">
-              <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
-                <span class="hero-eyebrow">Tarama Engineering Concern</span>
-                <h1>Engineering reliability into every solution</h1>
-                <p>Practical expertise, quality-focused execution and responsive support for demanding engineering requirements.</p>
-                <div class="d-flex flex-wrap gap-3">
-                  <a href="{{ route('who-we-are') }}" class="btn-get-started">Discover Our Approach</a>
-                  <a href="{{ route('contact-us') }}" class="btn-watch-video d-flex align-items-center"><i class="bi bi-chat-dots"></i><span>Discuss a Project</span></a>
-                </div>
-              </div>
-              <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="150">
-                <img src="{{ env('FRONT_ASSETS_URL') }}img/hero-img.png" class="img-fluid animated" alt="Engineering solutions illustration">
-              </div>
-            </div>
-          </div>
+        <div class="swiper-slide home-banner-fallback">
+          <img src="{{ env('FRONT_ASSETS_URL') }}img/hero-img.png" alt="Tarama Engineering solutions">
         </div>
       @endforelse
     </div>
+
     @if($banners->count() > 1)
-      <div class="swiper-pagination hero-pagination"></div>
+      <button type="button" class="swiper-button-prev home-banner-prev" aria-label="Previous banner"></button>
+      <button type="button" class="swiper-button-next home-banner-next" aria-label="Next banner"></button>
+      <div class="swiper-pagination home-banner-pagination"></div>
     @endif
+  </div>
+</section>
+
+<section class="home-banner-content section dark-background">
+  <div class="container">
+    <div class="row gy-4 align-items-center">
+      <div class="col-lg-9">
+        @if($bannerContent && ($bannerContent->heading1 || $bannerContent->heading2))
+          <span class="hero-eyebrow">{{ trim($bannerContent->heading1.' '.$bannerContent->heading2) }}</span>
+        @else
+          <span class="hero-eyebrow">Tarama Engineering Concern</span>
+        @endif
+        <h1>{{ $bannerContent?->banner_text ?: 'Engineering reliability into every solution' }}</h1>
+        <p>{{ $bannerContent?->banner_text2 ?: 'Practical expertise, quality-focused execution and responsive support for demanding engineering requirements.' }}</p>
+      </div>
+      <div class="col-lg-3">
+        <div class="home-banner-actions">
+          <a href="{{ $bannerContent?->banner_link ?: route('who-we-are') }}" class="btn-get-started">Explore More</a>
+          <a href="{{ route('contact-us') }}" class="btn-watch-video d-flex align-items-center">
+            <i class="bi bi-chat-dots"></i><span>Talk to Our Team</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 

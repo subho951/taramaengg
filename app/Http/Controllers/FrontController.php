@@ -27,8 +27,17 @@ class FrontController extends Controller
 
     public function home()
     {
+        $banners = Banner::where('status', 1)->orderBy('id')->get();
+        $bannerContent = $banners->first(fn (Banner $banner) => collect([
+            $banner->heading1,
+            $banner->heading2,
+            $banner->banner_text,
+            $banner->banner_text2,
+        ])->contains(fn ($value) => filled($value)));
+
         $data = [
-            'banners' => Banner::where('status', 1)->orderBy('id')->get(),
+            'banners' => $banners,
+            'bannerContent' => $bannerContent,
             'about' => $this->aboutPage(),
             'whyChooseUs' => $this->whyChooseUsPage(),
             'whyChooseUsIntro' => $this->whyChooseUsIntro(),
