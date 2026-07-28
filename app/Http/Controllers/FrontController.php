@@ -14,7 +14,6 @@ use App\Models\FaqCategory;
 use App\Models\GeneralSetting;
 use App\Models\HomepageCounter;
 use App\Models\Page;
-use App\Models\Product;
 use App\Models\Testimonial;
 use App\Models\WhyUsPoint;
 use Illuminate\Http\Request;
@@ -149,27 +148,30 @@ class FrontController extends Controller
     public function products(?string $slug = null)
     {
         $categories = Category::where('status', 1)
+            ->with(['products' => fn ($query) => $query
+                ->where('status', 1)
+                ->orderBy('id')])
             ->withCount(['products' => fn ($query) => $query->where('status', 1)])
             ->orderBy('parent_id')
             ->orderBy('category_name')
             ->get();
 
         $selectedCategory = null;
-        $products = Product::with('category')
-            ->where('status', 1)
-            ->whereHas('category', fn ($query) => $query->where('status', 1));
 
         if ($slug !== null) {
             $selectedCategory = $categories->firstWhere('slug', $slug);
             abort_unless($selectedCategory, 404);
-            $products->where('main_category', $selectedCategory->id);
         }
+
+        $productCategories = $selectedCategory
+            ? collect([$selectedCategory])
+            : $categories->filter(fn (Category $category) => $category->products->isNotEmpty())->values();
 
         $pageTitle = $selectedCategory?->category_name ?: 'Products';
 
         return $this->front_before_login_layout($pageTitle, 'products', [
             'categories' => $categories,
-            'products' => $products->orderByDesc('id')->paginate(12),
+            'productCategories' => $productCategories,
             'selectedCategory' => $selectedCategory,
             'meta_title' => $selectedCategory?->meta_title ?: $pageTitle,
             'meta_description' => $selectedCategory?->meta_description

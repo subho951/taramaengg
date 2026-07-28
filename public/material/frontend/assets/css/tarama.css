@@ -1040,144 +1040,61 @@ a {
   box-shadow: 0 10px 35px rgba(55, 81, 126, .08);
 }
 
-.product-category-banner {
-  height: min(390px, 42vw);
-  min-height: 230px;
-  overflow: hidden;
-  background: #edf5fa;
-}
-
-.product-category-banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.product-category-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 42px;
-}
-
-.product-category-nav a {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 10px 17px;
-  color: var(--brand-color);
-  border: 1px solid #dbe7ef;
-  border-radius: 50px;
-  background: #fff;
-  font-weight: 700;
-}
-
-.product-category-nav a span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 25px;
-  height: 25px;
-  padding: 0 7px;
-  color: #617387;
-  border-radius: 50px;
-  background: #edf4f8;
-  font-size: 12px;
-}
-
-.product-category-nav a:hover,
-.product-category-nav a.active {
-  color: #fff;
-  border-color: var(--brand-color);
-  background: var(--brand-color);
-}
-
-.product-category-nav a.active span,
-.product-category-nav a:hover span {
-  color: var(--brand-color);
+.product-listing-page {
+  padding: 66px 0 78px;
   background: #fff;
 }
 
-.product-category-copy {
-  max-width: 900px;
-  margin: -10px auto 42px;
-  text-align: center;
+.product-listing {
+  max-width: 1160px;
+  margin: 0 auto;
 }
 
-.product-card {
-  height: 100%;
-  overflow: hidden;
-  border: 1px solid #e7edf2;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 12px 35px rgba(55, 81, 126, .07);
-  transition: transform .25s ease, box-shadow .25s ease;
+.product-list-group {
+  scroll-margin-top: 110px;
 }
 
-.product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 48px rgba(55, 81, 126, .14);
+.product-list-group + .product-list-group {
+  margin-top: 32px;
 }
 
-.product-card-image {
-  position: relative;
-  height: 285px;
-  overflow: hidden;
-  background: #eef4f7;
+.product-list-group h2 {
+  margin: 0 0 14px;
+  color: #284e70;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-transform: uppercase;
 }
 
-.product-card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform .4s ease;
+.product-list-group h2 a {
+  color: inherit;
 }
 
-.product-card:hover .product-card-image img {
-  transform: scale(1.04);
+.product-list-group h2 a:hover {
+  color: var(--brand-accent);
 }
 
-.product-card-image span {
-  position: absolute;
-  left: 18px;
-  bottom: 18px;
-  padding: 7px 12px;
-  color: #fff;
-  border-radius: 50px;
-  background: rgba(4, 52, 103, .9);
-  font-size: 12px;
-  font-weight: 700;
+.product-name-list {
+  margin: 0;
+  padding-left: 25px;
 }
 
-.product-card-content {
-  display: flex;
-  min-height: 245px;
-  flex-direction: column;
-  padding: 27px;
+.product-name-list li {
+  padding-left: 2px;
+  color: #606a73;
+  font-size: 17px;
+  line-height: 1.55;
 }
 
-.product-card-content h2 {
-  margin-bottom: 13px;
-  font-size: 23px;
+.product-name-list li::marker {
+  color: #606a73;
+  font-variant-numeric: tabular-nums;
 }
 
-.product-card-content p {
-  margin-bottom: 24px;
-  color: #5f6d7c;
-  line-height: 1.75;
-}
-
-.product-enquiry-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: auto;
-  font-weight: 700;
-}
-
-.product-pagination {
-  margin-top: 45px;
+.product-list-empty {
+  margin: 0;
+  color: #6b7782;
 }
 
 .career-intro p {
@@ -1427,6 +1344,27 @@ a {
     font-size: 17px;
   }
 
+  .product-listing-page {
+    padding: 48px 0 58px;
+  }
+
+  .product-list-group + .product-list-group {
+    margin-top: 28px;
+  }
+
+  .product-list-group h2 {
+    font-size: 19px;
+  }
+
+  .product-name-list {
+    padding-left: 22px;
+  }
+
+  .product-name-list li {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
   .about-visual,
   .inner-about-visual {
     min-height: 340px;
@@ -1459,10 +1397,6 @@ a {
 
   .split-cta {
     padding: 30px;
-  }
-
-  .product-card-image {
-    height: 250px;
   }
 
   .career-visual {
