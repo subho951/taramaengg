@@ -35,12 +35,12 @@
             </div>
           @endif
 
-          @if($generalSetting->site_mail)
+          @if(config('services.contact.email'))
             <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="250">
               <i class="bi bi-envelope flex-shrink-0"></i>
               <div>
                 <h3>Email Us</h3>
-                <p><a href="mailto:{{ $generalSetting->site_mail }}">{{ $generalSetting->site_mail }}</a></p>
+                <p><a href="mailto:{{ config('services.contact.email') }}">{{ config('services.contact.email') }}</a></p>
               </div>
             </div>
           @endif
@@ -56,8 +56,9 @@
       </div>
 
       <div class="col-lg-7">
-        <form action="{{ route('contact-us') }}" method="post" class="contact-form" data-aos="fade-up" data-aos-delay="200">
+        <form action="{{ route('contact-us') }}" method="post" class="contact-form" data-recaptcha-action="contact_form" data-aos="fade-up" data-aos-delay="200">
           @csrf
+          <input type="hidden" name="recaptcha_token" value="">
           <div class="row gy-4">
             <div class="col-md-6">
               <label for="name-field" class="pb-2">Your Name</label>
@@ -91,6 +92,7 @@
 
             <div class="col-md-12">
               <button type="submit" class="contact-submit">Send Enquiry <i class="bi bi-send"></i></button>
+              @error('recaptcha_token')<div class="text-danger mt-2" role="alert">{{ $message }}</div>@enderror
             </div>
           </div>
         </form>

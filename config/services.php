@@ -31,4 +31,15 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'contact' => [
+        'email' => env('CONTACT_EMAIL', 'sales@taramaengg.com'),
+    ],
+
+    'recaptcha' => [
+        'site_key' => env('RECAPTCHA_SITE_KEY'),
+        'secret_key' => env('RECAPTCHA_SECRET_KEY'),
+        'minimum_score' => env('RECAPTCHA_MINIMUM_SCORE', 0.5),
+        'timeout' => env('RECAPTCHA_TIMEOUT', 5),
+    ],
+
 ];

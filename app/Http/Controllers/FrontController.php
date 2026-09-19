@@ -16,6 +16,7 @@ use App\Models\HomepageCounter;
 use App\Models\Page;
 use App\Models\Testimonial;
 use App\Models\WhyUsPoint;
+use App\Rules\ReCaptcha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -192,11 +193,15 @@ class FrontController extends Controller
                 'experience' => ['nullable', 'string', 'max:100'],
                 'message' => ['nullable', 'string', 'max:5000'],
                 'resume' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
+                'recaptcha_token' => ['required', new ReCaptcha('career_form')],
             ], [
                 'resume.required' => 'Please attach your resume.',
                 'resume.mimes' => 'The resume must be a PDF, DOC or DOCX file.',
                 'resume.max' => 'The resume must not be larger than 5 MB.',
+                'recaptcha_token.required' => 'Please wait for the security check and submit the form again.',
             ]);
+
+            unset($validated['recaptcha_token']);
 
             $validated['resume'] = $this->storeUpload($request, 'resume', 'career');
             $validated['status'] = 'NEW';
@@ -230,7 +235,12 @@ class FrontController extends Controller
                 'phone' => ['required', 'string', 'max:50'],
                 'subject' => ['required', 'string', 'max:250'],
                 'description' => ['required', 'string', 'max:5000'],
+                'recaptcha_token' => ['required', new ReCaptcha('contact_form')],
+            ], [
+                'recaptcha_token.required' => 'Please wait for the security check and submit the form again.',
             ]);
+
+            unset($validated['recaptcha_token']);
 
             Enquiry::insert([
                 ...$validated,
@@ -306,7 +316,9 @@ class FrontController extends Controller
     private function sendContactNotification(array $enquiry): void
     {
         $settings = GeneralSetting::find(1);
-        if (!$settings || !$settings->system_email) {
+        $recipient = (string) config('services.contact.email');
+
+        if (! $settings || $recipient === '') {
             return;
         }
 
@@ -335,7 +347,7 @@ class FrontController extends Controller
         ]);
 
         try {
-            $this->sendMail($settings->system_email, $subject, $message);
+            $this->sendMail($recipient, $subject, $message);
         } catch (Throwable $exception) {
             Log::warning('Contact enquiry email could not be sent.', [
                 'email' => $enquiry['email'],

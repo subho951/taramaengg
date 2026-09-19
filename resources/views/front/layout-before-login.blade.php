@@ -51,5 +51,53 @@
   <script src="{{ env('FRONT_ASSETS_URL') }}vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
   <script src="{{ env('FRONT_ASSETS_URL') }}vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="{{ env('FRONT_ASSETS_URL') }}js/main.js"></script>
+  @if(config('services.recaptcha.site_key') && request()->routeIs('contact-us', 'career'))
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+    <script>
+      document.querySelectorAll('form[data-recaptcha-action]').forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+
+          var submitButton = form.querySelector('[type="submit"]');
+          var tokenField = form.querySelector('input[name="recaptcha_token"]');
+          var action = form.dataset.recaptchaAction;
+
+          if (!tokenField || !action || form.dataset.recaptchaSubmitting === 'true') {
+            return;
+          }
+
+          function resetSubmission() {
+            form.dataset.recaptchaSubmitting = 'false';
+            if (submitButton) {
+              submitButton.disabled = false;
+            }
+          }
+
+          if (typeof grecaptcha === 'undefined') {
+            resetSubmission();
+            window.alert('The security check could not be loaded. Please refresh the page and try again.');
+            return;
+          }
+
+          form.dataset.recaptchaSubmitting = 'true';
+          if (submitButton) {
+            submitButton.disabled = true;
+          }
+
+          grecaptcha.ready(function () {
+            grecaptcha.execute(@json(config('services.recaptcha.site_key')), { action: action })
+              .then(function (token) {
+                tokenField.value = token;
+                form.submit();
+              })
+              .catch(function () {
+                resetSubmission();
+                window.alert('The security check could not be completed. Please refresh the page and try again.');
+              });
+          });
+        });
+      });
+    </script>
+  @endif
 </body>
 </html>

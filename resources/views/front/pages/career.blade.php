@@ -39,8 +39,9 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-xl-9">
-        <form action="{{ route('career') }}" method="post" enctype="multipart/form-data" class="career-form" data-aos="fade-up" data-aos-delay="100">
+        <form action="{{ route('career') }}" method="post" enctype="multipart/form-data" class="career-form" data-recaptcha-action="career_form" data-aos="fade-up" data-aos-delay="100">
           @csrf
+          <input type="hidden" name="recaptcha_token" value="">
           <div class="row gy-4">
             <div class="col-md-6">
               <label for="career-name">Full Name</label>
@@ -88,6 +89,7 @@
             <div class="col-12 career-form-action">
               <p><i class="bi bi-shield-check"></i> Your information will only be used to review your application.</p>
               <button type="submit" class="contact-submit">Submit Application <i class="bi bi-send"></i></button>
+              @error('recaptcha_token')<div class="text-danger mt-2" role="alert">{{ $message }}</div>@enderror
             </div>
           </div>
         </form>

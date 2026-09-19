@@ -65,7 +65,7 @@ class ApiController extends Controller
                         'site_name'             => $generalSetting->site_name,
                         'site_phone'            => $generalSetting->site_phone,
                         'site_phone2'           => $generalSetting->site_phone2,
-                        'site_mail'             => $generalSetting->site_mail,
+                        'site_mail'             => config('services.contact.email'),
                         'site_url'              => $generalSetting->site_url,
                         'site_logo'             => env('UPLOADS_URL').$generalSetting->site_logo,
                         'site_address'          => $generalSetting->description,

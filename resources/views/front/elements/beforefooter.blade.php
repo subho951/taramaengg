@@ -68,8 +68,8 @@
         @if($generalSetting->site_phone)
           <p class="mt-3"><strong>Phone:</strong> <a href="tel:{{ preg_replace('/[^0-9+]/', '', $generalSetting->site_phone) }}">{{ $generalSetting->site_phone }}</a></p>
         @endif
-        @if($generalSetting->site_mail)
-          <p><strong>Email:</strong> <a href="mailto:{{ $generalSetting->site_mail }}">{{ $generalSetting->site_mail }}</a></p>
+        @if(config('services.contact.email'))
+          <p><strong>Email:</strong> <a href="mailto:{{ config('services.contact.email') }}">{{ config('services.contact.email') }}</a></p>
         @endif
       </div>
     </div>
