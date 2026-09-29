@@ -35,15 +35,14 @@
             </div>
           @endif
 
-          @if(config('services.contact.email'))
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="250">
-              <i class="bi bi-envelope flex-shrink-0"></i>
-              <div>
-                <h3>Email Us</h3>
-                <p><a href="mailto:{{ config('services.contact.email') }}">{{ config('services.contact.email') }}</a></p>
-              </div>
+          <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="250">
+            <i class="bi bi-envelope flex-shrink-0"></i>
+            <div>
+              <h3>Email Us</h3>
+              <p><a href="mailto:taramaengineeringconcern98@gmail.com">taramaengineeringconcern98@gmail.com</a></p>
+              <p><a href="mailto:sales@taramaengg.com">sales@taramaengg.com</a></p>
             </div>
-          @endif
+          </div>
 
           <div class="contact-note">
             <i class="bi bi-clock-history"></i>
